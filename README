@@ -1,0 +1,6 @@
+full stack financial tracker using chatgpt
+
+using node.js, ejs, alpine.js, chart.js
+
+npm run dev --> run server even while saving/updating --> live updates
+npm run start --> need to kill and rerun to see changes
