@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const { createUser, findUser } = require('../models/User');
+const ensureAuthenticated = require('../middleware/auth');
 
 // Sample homepage route
 router.get('/', (req, res) => {
@@ -51,13 +52,12 @@ router.post('/login', async (req, res) => {
 });
 
 // Dashboard (protected)
-router.get('/dashboard', (req, res) => {
-  if (!req.session.userId) return res.redirect('/login');
+router.get('/dashboard', ensureAuthenticated, (req, res) => {
   res.render('dashboard', { title: 'Dashboard', categories: [], amounts: [] });
 });
 
 // Logout
-router.get('/logout', (req, res) => {
+router.get('/logout', ensureAuthenticated, (req, res) => {
   req.session.destroy(() => {
     res.redirect('/login');
   });
