@@ -14,7 +14,7 @@ async function createUser(username, password) {
 //Find user by username
 function findUser(username) {
   const stmt = db.prepare('SELECT * FROM users WHERE username = ?');
-  return stsmt.get(username); //returns a user or undefined
+  return stmt.get(username); //returns a user or undefined
 }
 
 module.exports = { createUser, findUser };
