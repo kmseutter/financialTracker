@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const { createUser, findUser } = require('../models/User');
 const ensureAuthenticated = require('../middleware/auth');
+const { addTransaction, getUserTransactions } = require('../models/Transaction');
 
 // Sample homepage route
 router.get('/', (req, res) => {
@@ -53,7 +54,37 @@ router.post('/login', async (req, res) => {
 
 // Dashboard (protected)
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
-  res.render('dashboard', { title: 'Dashboard', categories: [], amounts: [] });
+  const transactions = getUserTransactions(req.session.userId);
+
+  // Group by category and sum amounts
+  const categoryTotals = {};
+
+  for (const tx of transactions) {
+    if (!categoryTotals[tx.category]) {
+      categoryTotals[tx.category] = 0;
+    }
+    categoryTotals[tx.category] += tx.amount;
+  }
+
+  const categories = Object.keys(categoryTotals);
+  const amounts = Object.values(categoryTotals);
+
+  res.render('dashboard', { 
+    title: 'Dashboard', 
+    transactions, categories, amounts});
+});
+
+//Transactions
+router.post('/transactions', ensureAuthenticated, (req, res) => {
+  const { amount, category, date } = req.body;
+  if (!amount || !category || !date) {
+    req.flash('error', 'All fields are required.');
+    return res.redirect('/dashboard');
+  }
+
+  addTransaction(req.session.userId, parseFloat(amount), category, date);
+  req.flash('success', 'Transaction added.');
+  res.redirect('/dashboard');
 });
 
 // Logout

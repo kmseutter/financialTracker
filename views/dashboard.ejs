@@ -8,6 +8,36 @@
       <% } %>
     </div>
 
+  <%- include('layout') %>
+
+  <div class="max-w-2xl mx-auto space-y-8">
+
+    <!-- Flash messages are shown in layout -->
+
+    <h2 class="text-2xl font-bold">Add a Transaction</h2>
+
+    <form method="POST" action="/transactions" class="space-y-4 bg-white p-6 shadow rounded">
+      <input type="number" step="0.01" name="amount" placeholder="Amount" required class="w-full p-2 border rounded" />
+      <input type="text" name="category" placeholder="Category" required class="w-full p-2 border rounded" />
+      <input type="date" name="date" required class="w-full p-2 border rounded" />
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
+    </form>
+
+    <h2 class="text-2xl font-bold mt-10">Your Transactions</h2>
+
+    <ul class="space-y-2">
+      <% transactions.forEach(t => { %>
+        <li class="bg-gray-100 p-3 rounded flex justify-between">
+          <span><strong><%= t.category %></strong> on <%= t.date %></span>
+          <span class="<%= t.amount < 0 ? 'text-red-500' : 'text-green-600' %> font-bold">
+            $<%= t.amount.toFixed(2) %>
+          </span>
+        </li>
+      <% }) %>
+    </ul>
+
+  </div>
+
   <h1 class="text-2xl font-bold mb-4">Spending Overview</h1>
 
   <button @click="showChart = !showChart" class="mb-4 bg-blue-500 text-white px-4 py-2 rounded">

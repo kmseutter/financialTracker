@@ -2,7 +2,7 @@ const db = require('../db');
 
 function addTransaction(userId, amount, category, date){
   const stsmt = db.prepare(
-    'Insert INTO transactions (user_id, amount category, date) VALUES (?,?,?,?)');
+    'Insert INTO transactions (user_id, amount, category, date) VALUES (?,?,?,?)');
   stmt.run(userId, amount, category, date);
 }
 
