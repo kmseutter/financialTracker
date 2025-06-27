@@ -1,5 +1,4 @@
 <div class="p-6" x-data="{ showChart: true }">
-  <%- include('layout') %>
 
   <div class="max-w-2xl mx-auto space-y-8">
 
@@ -31,29 +30,61 @@
 
   <h1 class="text-2xl font-bold mb-4">Spending Overview</h1>
 
-  <button @click="showChart = !showChart" class="mb-4 bg-blue-500 text-white px-4 py-2 rounded">
-    Toggle Chart
-  </button>
+  <div class="space-y-4">
+    <button 
+      @click="showChart = !showChart" 
+      class="mb-4 bg-blue-500 text-white px-4 py-2 rounded">
+      Toggle Chart
+    </button>
 
-  <div x-show="showChart" class="w-full max-w-xl">
-    <canvas id="spendingChart"></canvas>
+    <div x-show="showChart" x-transition class="w-full max-w-xl">
+      <canvas id="spendingChart"></canvas>
+    </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const ctx = document.getElementById('spendingChart').getContext('2d');
-    const spendingChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: <%- JSON.stringify(categories) %>,
-        datasets: [{
-          data: <%- JSON.stringify(amounts) %>,
-          backgroundColor: ['#f87171', '#34d399', '#60a5fa', '#fbbf24', '#a78bfa']
-        }]
-      },
-      options: {
-        responsive: true
+    document.addEventListener('alpine:init', () => {
+      Alpine.effect(() => {
+        if (Alpine.store('showChart')) {
+          const ctx = document.getElementById('spendingChart')?.getContext('2d');
+          if (ctx && !window.myChart) {
+            window.myChart = new Chart(ctx, {
+              type: 'pie',
+              data: {
+                labels: <%- JSON.stringify(categories) %>,
+                datasets: [{
+                  data: <%- JSON.stringify(amounts) %>,
+                  backgroundColor: ['#f87171', '#34d399', '#60a5fa', '#fbbf24', '#a78bfa']
+                }]
+              },
+              options: {
+                responsive: true
+              }
+            });
+          }
+        }
+      });
+    });
+
+    // Fallback if Alpine store isn't used
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('spendingChart')?.getContext('2d');
+      if (ctx && !window.myChart) {
+        window.myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: <%- JSON.stringify(categories) %>,
+            datasets: [{
+              data: <%- JSON.stringify(amounts) %>,
+              backgroundColor: ['#f87171', '#34d399', '#60a5fa', '#fbbf24', '#a78bfa']
+            }]
+          },
+          options: {
+            responsive: true
+          }
+        });
       }
     });
   </script>
 </div>
-

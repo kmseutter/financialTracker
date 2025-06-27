@@ -5,15 +5,10 @@ using node.js, ejs, alpine.js, chart.js
 npm run dev --> run server even while saving/updating --> live updates
 npm run start --> need to kill and rerun to see changes
 
-Need to make dashboard look nice, set up database and data
+Need to make dashboard look nice, add delete transaction and user? for database
 
 Also need to get chart stuff working too
 
 
-From Chat:
-Hook this into SQLite or PostgreSQL?
 
-✅ Build a real dashboard with charts and transaction data?
-
-
-http://localhost:3000/dashboard or /login or /logout to see project in browser
+http://localhost:3000/dashboard or /login or /logout to see project in browser --> npm must be running

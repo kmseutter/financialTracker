@@ -10,6 +10,8 @@ dotenv.config(); // Load environment variables
 
 const app = express();
 
+const expressLayouts = require('express-ejs-layouts');
+
 // Middleware
 app.use(express.urlencoded({ extended: true })); // For form data
 app.use(express.json());                         // For JSON data
@@ -30,7 +32,8 @@ app.use((req, res, next) => {
 // View Engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
+app.use(expressLayouts);
+app.set('layout', 'layout'); //default layout file????
 
 app.use(flash()); // Flash middleware
 

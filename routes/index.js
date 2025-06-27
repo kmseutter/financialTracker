@@ -31,7 +31,9 @@ router.post('/register', async (req, res) => {
 
 // Show login form
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Login' });
+  res.render('login', { 
+    layout: 'layout',
+    title: 'Login' });
 });
 
 // Handle login
@@ -70,7 +72,9 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
   const amounts = Object.values(categoryTotals);
 
   res.render('dashboard', { 
-    title: 'Dashboard', 
+    layout: 'layout',
+    title: 'Dashboard',
+    user: req.user,
     transactions, categories, amounts});
 });
 
