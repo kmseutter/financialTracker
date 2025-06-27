@@ -5,7 +5,7 @@ using node.js, ejs, alpine.js, chart.js
 npm run dev --> run server even while saving/updating --> live updates
 npm run start --> need to kill and rerun to see changes
 
-Need to make dashboard look nice, set up database and data, get user/user id stuff working --> check apps.js for comment
+Need to make dashboard look nice, set up database and data
 
 Also need to get chart stuff working too
 
