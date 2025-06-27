@@ -1,13 +1,4 @@
 <div class="p-6" x-data="{ showChart: true }">
-    <div>
-      <% if (user) { %>
-        <p>Welcome, user!</p>
-        <a href="/logout">Logout</a>
-      <% } else { %>
-        <a href="/login">Login</a>
-      <% } %>
-    </div>
-
   <%- include('layout') %>
 
   <div class="max-w-2xl mx-auto space-y-8">
